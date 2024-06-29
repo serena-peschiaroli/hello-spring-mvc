@@ -5,6 +5,7 @@ import com.rungroup.web.models.Club;
 import com.rungroup.web.repository.ClubRepository;
 import com.rungroup.web.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 /* the service Implementation: ClubServiceImpl implements the ClubService interface.
 * It uses the repository to interact with the database and includes a method
 * to convert Club entities to ClubDto*/
-
+@Service
 public class ClubServiceImpl implements ClubService {
 
     private ClubRepository clubRepository;
@@ -29,8 +30,26 @@ public class ClubServiceImpl implements ClubService {
         return clubs.stream().map((club) -> mapToClubDto(club)).collect(Collectors.toList());
     }
 
+    @Override
+    public Club saveClub(ClubDto clubDto) {
+        Club club = mapToClub(clubDto);
+        return clubRepository.save(club);
+    }
+
     /* this method takes a club objects as a parameter and returnus a clubdto obkect*/
-    private ClubDto mapToClubDto(Club club){
+    private Club mapToClub(ClubDto club) {
+        Club clubDto = Club.builder()
+                .id(club.getId())
+                .title(club.getTitle())
+                .photoUrl(club.getPhotoUrl())
+                .content(club.getContent())
+                .createdOn(club.getCreatedOn())
+                .updatedOn(club.getUpdatedOn())
+                .build();
+        return  clubDto;
+    }
+
+    private ClubDto mapToClubDto(Club club) {
         ClubDto clubDto = ClubDto.builder()
                 .id(club.getId())
                 .title(club.getTitle())
