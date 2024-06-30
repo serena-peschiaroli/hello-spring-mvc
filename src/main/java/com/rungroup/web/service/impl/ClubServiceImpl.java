@@ -10,13 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/* the service Implementation: ClubServiceImpl implements the ClubService interface.
-* It uses the repository to interact with the database and includes a method
-* to convert Club entities to ClubDto*/
 @Service
 public class ClubServiceImpl implements ClubService {
 
-    private ClubRepository clubRepository;
+    private final ClubRepository clubRepository;
 
     @Autowired
     public ClubServiceImpl(ClubRepository clubRepository) {
@@ -26,31 +23,30 @@ public class ClubServiceImpl implements ClubService {
     @Override
     public List<ClubDto> findAllClub() {
         List<Club> clubs = clubRepository.findAll();
-        //this line uses java stram to convert the list of club entities into a club dto objects
-        return clubs.stream().map((club) -> mapToClubDto(club)).collect(Collectors.toList());
+        return clubs.stream().map(this::mapToClubDto).collect(Collectors.toList());
     }
 
     @Override
-    public Club saveClub(ClubDto clubDto) {
+    public ClubDto saveClub(ClubDto clubDto) {
         Club club = mapToClub(clubDto);
-        return clubRepository.save(club);
+        Club savedClub = clubRepository.save(club);
+        return mapToClubDto(savedClub);
     }
 
-    /* this method takes a club objects as a parameter and returnus a clubdto obkect*/
-    private Club mapToClub(ClubDto club) {
-        Club clubDto = Club.builder()
-                .id(club.getId())
-                .title(club.getTitle())
-                .photoUrl(club.getPhotoUrl())
-                .content(club.getContent())
-                .createdOn(club.getCreatedOn())
-                .updatedOn(club.getUpdatedOn())
+
+    private Club mapToClub(ClubDto clubDto) {
+        return Club.builder()
+                .id(clubDto.getId())
+                .title(clubDto.getTitle())
+                .photoUrl(clubDto.getPhotoUrl())
+                .content(clubDto.getContent())
+                .createdOn(clubDto.getCreatedOn())
+                .updatedOn(clubDto.getUpdatedOn())
                 .build();
-        return  clubDto;
     }
 
     private ClubDto mapToClubDto(Club club) {
-        ClubDto clubDto = ClubDto.builder()
+        return ClubDto.builder()
                 .id(club.getId())
                 .title(club.getTitle())
                 .photoUrl(club.getPhotoUrl())
@@ -58,6 +54,5 @@ public class ClubServiceImpl implements ClubService {
                 .createdOn(club.getCreatedOn())
                 .updatedOn(club.getUpdatedOn())
                 .build();
-        return clubDto;
     }
 }

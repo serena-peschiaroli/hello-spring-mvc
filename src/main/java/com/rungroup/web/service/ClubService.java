@@ -14,7 +14,7 @@ import java.util.List;
 //the clubService interface defines the method that the service will implement.
 public interface ClubService {
     List<ClubDto> findAllClub();
-    Club saveClub(ClubDto clubDto);
+    ClubDto saveClub(ClubDto clubDto);
 
     /*ClubDto findClubById(Long clubId);
     void updateClub(ClubDto club);
