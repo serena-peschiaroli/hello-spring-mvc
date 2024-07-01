@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +34,9 @@ public class ClubServiceImpl implements ClubService {
         return mapToClubDto(savedClub);
     }
 
-
+/*
+*  This method is typically used when you receive a DTO from the client (e.g., via a web form)
+* and need to convert it to an entity to persist it in the database.*/
     private Club mapToClub(ClubDto clubDto) {
         return Club.builder()
                 .id(clubDto.getId())
@@ -45,6 +48,9 @@ public class ClubServiceImpl implements ClubService {
                 .build();
     }
 
+    /*
+    * This method is typically used when you need to send data to the client
+    *  (e.g., in a web response) and want to convert the entity to a DTO for presentation.*/
     private ClubDto mapToClubDto(Club club) {
         return ClubDto.builder()
                 .id(club.getId())
@@ -54,5 +60,12 @@ public class ClubServiceImpl implements ClubService {
                 .createdOn(club.getCreatedOn())
                 .updatedOn(club.getUpdatedOn())
                 .build();
+    }
+
+    //retrieve club by id
+    @Override
+    public Optional<ClubDto> getClubById(Long id) {
+        Optional<Club> club = clubRepository.findById(id);
+        return club.map(this::mapToClubDto);
     }
 }

@@ -1,10 +1,9 @@
 package com.rungroup.web.service;
 
 import com.rungroup.web.dto.ClubDto;
-import com.rungroup.web.models.Club;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /*
 * The service layer in Spring MVC app serves as a layer of abstraction between
@@ -16,8 +15,8 @@ public interface ClubService {
     List<ClubDto> findAllClub();
     ClubDto saveClub(ClubDto clubDto);
 
-    /*ClubDto findClubById(Long clubId);
-    void updateClub(ClubDto club);
+    Optional<ClubDto> getClubById(Long id);
+    /*void updateClub(ClubDto club);
     void delete(Long clubId);
     List<ClubDto> searchClubs(String query);*/
 }

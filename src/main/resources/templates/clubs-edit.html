@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Edit Club</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0">
+
+    <!-- Page Content-->
+    <section layout:fragment="body" class="py-5">
+        <div class="container">
+            <h1>Edit Club</h1>
+            <form role="form" method="post" th:action="@{'/clubs/{id}' (id=${club.id})}" th:object="${club}" class="row g-3">
+                <div class="col-md-6">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text"
+                           class="form-control"
+                           id="title"
+                           th:field="*{title}"
+                           placeholder="Title">
+                    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></div>
+                </div>
+                <div class="col-md-6">
+                    <label for="photoUrl" class="form-label">Photo URL</label>
+                    <input type="text"
+                           class="form-control"
+                           id="photoUrl"
+                           th:field="*{photoUrl}"
+                           placeholder="Photo URL">
+                    <div th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger"></div>
+                </div>
+                <div class="col-12">
+                    <label for="content" class="form-label">Content</label>
+                    <textarea class="form-control"
+                              id="content"
+                              th:field="*{content}"
+                              placeholder="Content"></textarea>
+                    <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger"></div>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+            <div><a th:href="@{/clubs}" class="btn btn-secondary">Back to Home</a></div>
+        </div>
+    </section>
+</main>
+</body>
+</html>
